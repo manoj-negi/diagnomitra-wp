@@ -1,0 +1,62 @@
+/*
+Theme Name: My HTML Theme
+Theme URI: http://diagnomitra.com
+Author: Diagnomitra
+Author URI: http://diagnomitra.com
+Description: A custom theme based on an HTML website.
+Version: 1.0
+*/
+/* Pre-header */
+.pre-header {
+    background-color: #f0f0f0;
+    padding: 10px 0;
+}
+.pre-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.pre-header .pre-header-content {
+    font-size: 14px;
+}
+.pre-header .social-links {
+    margin-left: 10px;
+}
+.pre-header .social-links a {
+    margin-right: 10px;
+}
+
+/* Header */
+.site-header {
+    background-color: #333;
+    color: #fff;
+    padding: 10px 0;
+}
+.site-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.site-header .site-logo img {
+    max-height: 50px;
+}
+.site-header .site-navigation {
+    margin-left: auto;
+}
+.site-header .header-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.site-header .header-menu li {
+    display: inline-block;
+    margin-right: 20px;
+}
+.site-header .header-menu li:last-child {
+    margin-right: 0;
+}
+.site-header .header-menu a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+}
