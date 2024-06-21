@@ -1310,7 +1310,9 @@ get_header();
                                     </div>
                                     <ul class="fontStyle9 ps-0">
                                     <ul class="fontStyle9 ps-0">
-    <form class="jw_dynamic_form" name="form_v_1" method="POST" >
+                                    <form action="<?php echo admin_url('admin-post.php'); ?>" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="action" value="save_my_custom_form">
+    <?php wp_nonce_field('save_custom_form_nonce', 'save_custom_form_nonce_field'); ?>
         <signature style="display:none">W10=</signature>
         <li class="dynamicField" data-input="text" data-mode="system">
             <label>Full Name</label>
@@ -1324,7 +1326,7 @@ get_header();
         </li>
         <li class="dynamicField" data-input="tel" data-mode="system">
             <label>Mobile Number</label>
-            <input type="tel" name="mobileNumber" data-name="mobileNumber" date-mode="system" data-input="tel"
+            <input type="tel" name="mobile_number" data-name="mobileNumber" date-mode="system" data-input="tel"
                 class="jw_dynamic_input" tooltip="" placeholder="Enter Number" maxlength="100" errmsg="" required>
         </li>
         <li class="dynamicField" data-input="text" data-mode="system">
@@ -1335,47 +1337,16 @@ get_header();
         <li class="dynamicField" data-input="singlefile" data-mode="normal">
             <label>Upload Prescription</label>
             <input type="file" name="prescription" data-name="UploadPrescription_683" data-input="singlefile"
-                date-mode="normal" class="jw_dynamic_input" accept=".pdf,.doc,.docx,.txt,.xls,.ppt,.csv" />
+                date-mode="normal" class="jw_dynamic_input" accept=".pdf,.doc,.docx,.txt,.xls,.ppt,.csv,.jpg,.png" />
         </li>
        
         <input type="hidden" class="_tx_" value="76657">
                                             <li><input type="submit" class="see-button" value="Book Now"></li>
                                         </form>
+
 </ul>
                                     </ul>
-                                    <!-- <form method="post" enctype="multipart/form-data">
-                                <ul class="fontStyle9 ps-0">
-                                    <li class="dynamicField" data-input="text" data-mode="system">
-                                        <label>Full Name</label>
-                                        <input type="text" name="full_name" data-name="full_name" data-input="text"
-                                            class="jw_dynamic_input" placeholder="Enter Name" maxlength="100" required>
-                                    </li>
-                                    <li class="dynamicField" data-input="email" data-mode="system">
-                                        <label>Email</label>
-                                        <input type="email" name="email" data-name="email" data-input="email"
-                                            class="jw_dynamic_input" placeholder="Enter Your Email" maxlength="100" required>
-                                    </li>
-                                    <li class="dynamicField" data-input="tel" data-mode="system">
-                                        <label>Mobile Number</label>
-                                        <input type="tel" name="mobile_number" data-name="mobile_number" data-input="tel"
-                                            class="jw_dynamic_input" placeholder="Enter Number" maxlength="100" required>
-                                    </li>
-                                    <li class="dynamicField" data-input="text" data-mode="system">
-                                        <label>Your Location</label>
-                                        <input type="text" name="location" data-name="location" data-input="text"
-                                            class="jw_dynamic_input" placeholder="Enter Location" maxlength="100" required>
-                                    </li>
-                                    <li class="dynamicField" data-input="singlefile" data-mode="normal">
-                                        <label>Upload Prescription</label>
-                                        <input type="file" name="prescription" data-name="UploadPrescription_683" data-input="singlefile"
-                                            class="jw_dynamic_input" accept=".pdf,.doc,.docx,.txt,.xls,.ppt,.csv" required />
-                                    </li>
-                                    <li>
-                                        <?php wp_nonce_field('book-test', '_wpnonce_book'); ?>
-                                        <input type="submit" name="insert" class="see-button" value="Book Now">
-                                    </li>
-                                </ul>
-                            </form> -->
+                               
                                 </div>
                             </div>
                         </div>
@@ -3840,42 +3811,37 @@ get_header();
                                             Booking</div>
                                     </div>
                                     <ul class="fontStyle9 ps-0">
-                                        <form class="jw_dynamic_form" name="form_v_11">
-                                            <signature style="display:none">W10=</signature>
-                                            <li class="dynamicField" data-input="text" data-mode="system"><label>Full
-                                                    Name</label><input type="text" data-name="firstName"
-                                                    date-mode="system" data-input="text" class="jw_dynamic_input "
-                                                    tooltip="" placeholder="Enter Name" maxlength="100" errmsg=""
-                                                    required></li>
-                                            <li class="dynamicField" data-input="email" data-mode="system">
-                                                <label>Email</label><input type="email" data-name="email"
-                                                    date-mode="system" data-input="email" class="jw_dynamic_input "
-                                                    tooltip="" placeholder="Enter Your Email" maxlength="100" errmsg=""
-                                                    required>
-                                            </li>
-                                            <li class="dynamicField" data-input="tel" data-mode="system"><label>Mobile
-                                                    Number</label><input type="tel" data-name="mobileNumber"
-                                                    date-mode="system" data-input="tel" class="jw_dynamic_input "
-                                                    tooltip="" placeholder="Enter Number" maxlength="100" errmsg=""
-                                                    required></li>
-                                            <li class="dynamicField" data-input="text" data-mode="system"><label>Your
-                                                    location</label><input type="text" data-name="subject"
-                                                    date-mode="system" data-input="text" class="jw_dynamic_input "
-                                                    tooltip="" placeholder="Enter Location" maxlength="100" errmsg=""
-                                                    required></li>
-                                            <li class="dynamicField" data-input="singlefile" data-mode="normal">
-                                                <label>Upload Prescription</label><input type="file"
-                                                    data-name="UploadPrescription_683" name="UploadPrescription_683"
-                                                    data-input="singlefile" date-mode="normal" class="jw_dynamic_input"
-                                                    name="jw_files[]" accept=".pdf,.doc,.docx,.txt,.xls,.ppt" />
-                                            </li>
-                                            <li style="display:none;" class="dynamicField otpcode" data-input="otpcode"
-                                                data-mode="system"><label>Enter OTP</label><input type="text"
-                                                    data-name="otpcode" date-mode="system" data-input="text"
-                                                    class="jw_dynamic_input " tooltip="" placeholder="Enter OTP"
-                                                    maxlength="6" minlength="3" errmsg=""><a href="javascript:void(0);"
-                                                    class="_back2form">Change Email</a></li><input type="hidden"
-                                                class="_tx_" value="76657">
+                                    <form action="<?php echo admin_url('admin-post.php'); ?>" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="action" value="save_my_custom_form">
+    <?php wp_nonce_field('save_custom_form_nonce', 'save_custom_form_nonce_field'); ?>
+        <signature style="display:none">W10=</signature>
+        <li class="dynamicField" data-input="text" data-mode="system">
+            <label>Full Name</label>
+            <input type="text" name="full_name" data-name="full_name" date-mode="system" data-input="text"
+                class="jw_dynamic_input" tooltip="" placeholder="Enter Name" maxlength="100" errmsg="" required>
+        </li>
+        <li class="dynamicField" data-input="email" data-mode="system">
+            <label>Email</label>
+            <input type="email" name="email" data-name="email" date-mode="system" data-input="email"
+                class="jw_dynamic_input" tooltip="" placeholder="Enter Your Email" maxlength="100" errmsg="" required>
+        </li>
+        <li class="dynamicField" data-input="tel" data-mode="system">
+            <label>Mobile Number</label>
+            <input type="tel" name="mobile_number" data-name="mobileNumber" date-mode="system" data-input="tel"
+                class="jw_dynamic_input" tooltip="" placeholder="Enter Number" maxlength="100" errmsg="" required>
+        </li>
+        <li class="dynamicField" data-input="text" data-mode="system">
+            <label>Your location</label>
+            <input type="text" name="location" data-name="location" date-mode="system" data-input="text"
+                class="jw_dynamic_input" tooltip="" placeholder="Enter Location" maxlength="100" errmsg="" required>
+        </li>
+        <li class="dynamicField" data-input="singlefile" data-mode="normal">
+            <label>Upload Prescription</label>
+            <input type="file" name="prescription" data-name="UploadPrescription_683" data-input="singlefile"
+                date-mode="normal" class="jw_dynamic_input" accept=".pdf,.doc,.docx,.txt,.xls,.ppt,.csv,.jpg,.png" />
+        </li>
+       
+        <input type="hidden" class="_tx_" value="76657">
                                             <li><input type="submit" class="see-button" value="Book Now"></li>
                                         </form>
                                     </ul>

@@ -94,3 +94,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /** Sets up WordPress vars and included files. */
 require_once ABSPATH . 'wp-settings.php';
+
+define( 'WPMS_ON', true );
+define( 'WPMS_SMTP_HOST', 'smtp.gmail.com' );
+define( 'WPMS_SMTP_PORT', 587 );
+define( 'WPMS_SSL', 'tls' );
+define( 'WPMS_SMTP_AUTH', true );
+define( 'WPMS_SMTP_USER', 'ttechcodebeelab@gmail.com' );
+define( 'WPMS_SMTP_PASS', 'bgmcyapqpbcafeqi' );

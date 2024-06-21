@@ -838,3 +838,234 @@ function twentytwenty_get_elements_array() {
 	 */
 	return apply_filters( 'twentytwenty_get_elements_array', $elements );
 }
+
+function my_save_custom_form() {
+    // Check nonce for security
+    if (!isset($_POST['save_custom_form_nonce_field']) || !wp_verify_nonce($_POST['save_custom_form_nonce_field'], 'save_custom_form_nonce')) {
+        wp_die('Nonce verification failed');
+    }
+
+    global $wpdb;
+
+    // Sanitize and retrieve form data
+    $full_name = sanitize_text_field($_POST['full_name']);
+    $email = sanitize_email($_POST['email']);
+    $mobile_number = sanitize_text_field($_POST['mobile_number']);
+    $location = sanitize_text_field($_POST['location']);
+    
+    // Handle file upload
+    $prescription_file = '';
+    if (!empty($_FILES['prescription']['name'])) {
+        require_once ABSPATH . 'wp-admin/includes/file.php';
+        require_once ABSPATH . 'wp-admin/includes/media.php';
+        require_once ABSPATH . 'wp-admin/includes/image.php';
+
+        $file = $_FILES['prescription'];
+        $upload_overrides = array('test_form' => false);
+        $uploaded_file = wp_handle_upload($file, $upload_overrides);
+
+        if (isset($uploaded_file['url'])) {
+            $prescription_file = $uploaded_file['url'];
+			$prescription_file_path = $uploaded_file['file'];
+        } else {
+            $prescription_file = '';
+            // Log error if file upload failed
+            error_log('File upload failed: ' . print_r($uploaded_file, true));
+        }
+    }
+
+    // Insert data into the database
+    $inserted = $wpdb->insert(
+        $wpdb->prefix . 'form_data', // Ensure your table has the correct prefix
+        array(
+            'full_name' => $full_name,
+            'email' => $email,
+            'mobile_number' => $mobile_number,
+            'location' => $location,
+            'prescription_file' => $prescription_file
+        ),
+        array(
+            '%s',
+            '%s',
+            '%s',
+            '%s',
+            '%s'
+        )
+    );
+
+    if ($inserted !== false) {
+        // Prepare email content for admin
+        $admin_email = 'diagnomitralabs@gmail.com'; // Fixed sender email
+        $admin_subject = 'New Form Submission';
+        $admin_message = "A new form submission has been received:\n\n";
+      $admin_message = '
+        <html>
+        <head>
+            <style>
+                table {
+                    font-family: Arial, sans-serif;
+                    border-collapse: collapse;
+                    width: 100%;
+                }
+                td, th {
+                    border: 1px solid #dddddd;
+                    text-align: left;
+                    padding: 8px;
+                }
+                tr:nth-child(even) {
+                    background-color: #f2f2f2;
+                }
+            </style>
+        </head>
+        <body>
+            <h2>A new form submission has been received:</h2>
+            <table>
+                <tr>
+                    <th>Field</th><th>Value</th>
+                </tr>
+                <tr>
+                    <td>Full Name</td><td>' . $full_name . '</td>
+                </tr>
+                <tr>
+                    <td>Email</td><td>' . $email . '</td>
+                </tr>
+                <tr>
+                    <td>Mobile Number</td><td>' . $mobile_number . '</td>
+                </tr>
+                <tr>
+                    <td>Location</td><td>' . $location . '</td>
+                </tr>';
+                
+        if (!empty($prescription_file)) {
+            $admin_message .= '
+                <tr>
+                    <td>Prescription File</td>
+                </tr>';
+        }
+
+        $admin_message .= '
+            </table>
+        </body>
+        </html>';
+       
+
+        // Send email to admin
+        $admin_headers = array(
+            'Content-Type: text/html; charset=UTF-8',
+            'From: Your Website <ttechcodebeelab@gmail.com>'
+        );
+		$attachments = array();
+        if (!empty($prescription_file_path)) {
+            $attachments[] = $prescription_file_path;
+        }
+        $admin_email_sent = wp_mail($admin_email, $admin_subject, $admin_message, $admin_headers,$attachments);
+
+        if (!$admin_email_sent) {
+            // Log error if email sending failed
+            error_log('Admin email sending failed.');
+            wp_die('There was an error sending the admin email. Please try again.');
+        }
+
+        // Prepare email content for sender
+        $sender_subject = 'Thanks for Booking';
+        $sender_message = "Dear $full_name,\n\n";
+        $sender_message .= "Thank you for booking a test with us. We have received your information and will get back to you shortly.\n\n";
+        $sender_message .= "Regards,\nDiagnomitra Team";
+
+        // Send email to sender
+        $sender_headers = array(
+            'Content-Type: text/plain; charset=UTF-8',
+            'From: Your Website <ttechcodebeelab@gmail.com>'
+        );
+        $sender_email_sent = wp_mail($email, $sender_subject, $sender_message, $sender_headers);
+
+        if (!$sender_email_sent) {
+            // Log error if email sending failed
+            error_log('Sender email sending failed.');
+            // You can handle this failure silently or display a message to the user
+        }
+
+        // Redirect after form submission
+        wp_redirect(site_url('/'));
+        exit;
+    } else {
+        // Log error if insertion failed
+        error_log('Database insertion failed: ' . $wpdb->last_error);
+        wp_die('There was an error saving your submission. Please try again.');
+    }
+}
+
+// Hook the function to handle the form submission
+add_action('admin_post_nopriv_save_my_custom_form', 'my_save_custom_form');
+add_action('admin_post_save_my_custom_form', 'my_save_custom_form');
+function register_my_menus() {
+	register_nav_menus(
+	  array(
+		'header-menu' => __('Header Menu')
+	  )
+	);
+  }
+  add_action('init', 'register_my_menus');
+  
+  class Custom_Walker_Nav_Menu extends Walker_Nav_Menu {
+    function start_lvl(&$output, $depth = 0, $args = array()) {
+        $indent = str_repeat("\t", $depth);
+        $output .= "\n$indent<ul class=\"htmlCss-sub-menu sub-menu background3\">\n";
+    }
+
+    function end_lvl(&$output, $depth = 0, $args = array()) {
+        $indent = str_repeat("\t", $depth);
+        $output .= "$indent</ul>\n";
+    }
+
+    function start_el(&$output, $item, $depth = 0, $args = array(), $id = 0) {
+        $indent = ($depth) ? str_repeat("\t", $depth) : '';
+        $class_names = $value = '';
+
+        $classes = empty($item->classes) ? array() : (array) $item->classes;
+        $classes[] = 'menu-item-' . $item->ID;
+
+        $class_names = join(' ', apply_filters('nav_menu_css_class', array_filter($classes), $item, $args));
+        $class_names = ' class="' . esc_attr($class_names) . '"';
+
+        $id = apply_filters('nav_menu_item_id', 'menu-item-'. $item->ID, $item, $args);
+        $id = strlen($id) ? ' id="' . esc_attr($id) . '"' : '';
+
+        $output .= $indent . '<li' . $id . $value . $class_names .'>';
+
+        $atts = array();
+        $atts['title']  = ! empty($item->attr_title) ? $item->attr_title : '';
+        $atts['target'] = ! empty($item->target)     ? $item->target     : '';
+        $atts['rel']    = ! empty($item->xfn)        ? $item->xfn        : '';
+        $atts['href']   = ! empty($item->url)        ? $item->url        : '';
+
+        $atts = apply_filters('nav_menu_link_attributes', $atts, $item, $args);
+
+        $attributes = '';
+        foreach ( $atts as $attr => $value ) {
+            if ( ! empty( $value ) ) {
+                $value = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
+                $attributes .= ' ' . $attr . '="' . $value . '"';
+            }
+        }
+
+        $item_output = $args->before;
+        $item_output .= '<a'. $attributes .' class="fontStyle7">';
+        $item_output .= $args->link_before . apply_filters('the_title', $item->title, $item->ID) . $args->link_after;
+        $item_output .= '</a>';
+
+        // Add arrow for items with submenus
+        if (in_array('menu-item-has-children', $classes)) {
+            $item_output .= ' <i class="bx bxs-chevron-down htmlcss-arrow arrow"></i>';
+        }
+
+        $item_output .= $args->after;
+
+        $output .= apply_filters('walker_nav_menu_start_el', $item_output, $item, $depth, $args);
+    }
+
+    function end_el(&$output, $item, $depth = 0, $args = array()) {
+        $output .= "</li>\n";
+    }
+}
+
