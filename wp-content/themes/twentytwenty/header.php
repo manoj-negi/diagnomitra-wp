@@ -18,6 +18,7 @@
 
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="<?php echo get_template_directory_uri(); ?>/script.js"></script>
 
     <link rel="profile" href="https://gmpg.org/xfn/11">
 
@@ -1013,7 +1014,6 @@
 </head>
 
 <body <?php body_class(); ?>>
-  
 
     <?php
 		wp_body_open();
@@ -1040,37 +1040,34 @@
     }
 
     /* Loader Styles */
-.loader {
+
+
+/* Loader styles */
+#loader {
     position: fixed;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    z-index: 9999;
-    background: rgba(255, 255, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    z-index: 9999; /* Ensure it appears above other content */
     display: flex;
-    align-items: center;
     justify-content: center;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
+    align-items: center;
 }
 
-.spinner {
-    border: 16px solid #f3f3f3; /* Light grey */
-    border-top: 16px solid #3498db; /* Blue */
+.loader-icon {
+    border: 4px solid #f3f3f3; /* Light grey border */
+    border-top: 4px solid #3498db; /* Blue border for animation */
     border-radius: 50%;
-    width: 120px;
-    height: 120px;
-    animation: spin 2s linear infinite;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite; /* Spin animation */
 }
 
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
-}
-
-.loader.hidden {
-    opacity: 0;
-    visibility: hidden;
 }
 /* Ensure these styles are in your stylesheet */
 
@@ -1129,7 +1126,8 @@
 }
 
     </style>
-    <header class="header nav-down" id="header_0">
+ <header class="header nav-down" id="header_0">
+    
         <div class="top-bar background4">
             <div class="container d-flex justify-content-between align-items-center">
                 <div class="logo desk align-items-center gap-2">
@@ -1151,44 +1149,44 @@
             </div>
         </div>
         <nav class="nav background1">
-    <div class="container">
-        <div class="overlay"></div>
-        <div class="navbars">
-            <div class="logo mob align-items-center gap-2 py-2">
-                <div class="d-flex flex-wrap gap-2 align-items-center">
-                    <a href="index.html" class="media-fit">
-                        <img src="<?php bloginfo('template_url'); ?>/static.joonsite.com/storage/21443/media/2404241259411841.png" alt="">
-                    </a>
+            <div class="container">
+                <div class="overlay"></div>
+                <div class="navbars">
+                    <div class="logo mob align-items-center gap-2 py-2">
+                        <div class="d-flex flex-wrap gap-2 align-items-center">
+                            <a href="index.html" class="media-fit">
+                                <img src="<?php bloginfo('template_url'); ?>/static.joonsite.com/storage/21443/media/2404241259411841.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="hamburgers">
+                        <div class="hamburger">
+                            <svg width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" id="Editable-line" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <circle cx="5" cy="6" fill="none" id="XMLID_303_" r="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"></circle>
+                                <circle cx="5" cy="16" fill="none" id="XMLID_305_" r="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"></circle>
+                                <circle cx="5" cy="26" fill="none" id="XMLID_304_" r="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"></circle>
+                                <line fill="none" id="XMLID_29_" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" x1="10" x2="28" y1="6" y2="6"></line>
+                                <line fill="none" id="XMLID_30_" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" x1="10" x2="28" y1="16" y2="16"></line>
+                                <line fill="none" id="XMLID_31_" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" x1="10" x2="28" y1="26" y2="26"></line>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="nav-links al w-100">
+                        <?php
+                        wp_nav_menu(array(
+                            'theme_location' => 'header-menu',
+                            'container' => false,
+                            'menu_class' => 'links',
+                            'fallback_cb' => 'wp_page_menu',
+                            'walker' => new Custom_Walker_Nav_Menu()
+                        ));
+                        ?>
+                    </div>
                 </div>
             </div>
-            <div class="hamburgers">
-                <div class="hamburger">
-                    <svg width="32px" height="32px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" id="Editable-line" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                        <circle cx="5" cy="6" fill="none" id="XMLID_303_" r="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"></circle>
-                        <circle cx="5" cy="16" fill="none" id="XMLID_305_" r="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"></circle>
-                        <circle cx="5" cy="26" fill="none" id="XMLID_304_" r="1" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2"></circle>
-                        <line fill="none" id="XMLID_29_" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" x1="10" x2="28" y1="6" y2="6"></line>
-                        <line fill="none" id="XMLID_30_" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" x1="10" x2="28" y1="16" y2="16"></line>
-                        <line fill="none" id="XMLID_31_" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="2" x1="10" x2="28" y1="26" y2="26"></line>
-                    </svg>
-                </div>
-            </div>
-            <div class="nav-links al w-100">
-                <?php
-                wp_nav_menu(array(
-                    'theme_location' => 'header-menu',
-                    'container' => false,
-                    'menu_class' => 'links',
-                    'fallback_cb' => 'wp_page_menu',
-                    'walker' => new Custom_Walker_Nav_Menu()
-                ));
-                ?>
-            </div>
-        </div>
-    </div>
-</nav>
-
+        </nav>
     </header>
+
     <style>
     .see-xsm-logo img {
         height: 40px !important;
@@ -1272,43 +1270,72 @@
     jsArrow.onclick = function() {
         navLinks.classList.toggle("show3");
     }
-    function cssLoaded(callback) {
-        var cssFiles = document.querySelectorAll('link[rel="stylesheet"]');
-        var loaded = 0;
-        var total = cssFiles.length;
+    // function cssLoaded(callback) {
+    //     var cssFiles = document.querySelectorAll('link[rel="stylesheet"]');
+    //     var loaded = 0;
+    //     var total = cssFiles.length;
 
-        function checkLoaded() {
-            loaded++;
-            if (loaded === total) {
-                callback();
-            }
-        }
+    //     function checkLoaded() {
+    //         loaded++;
+    //         if (loaded === total) {
+    //             callback();
+    //         }
+    //     }
 
-        cssFiles.forEach(function(cssFile) {
-            if (cssFile.sheet) {
-                checkLoaded();
-            } else {
-                cssFile.addEventListener('load', checkLoaded);
-                cssFile.addEventListener('error', checkLoaded);
-            }
-        });
-    }
+    //     cssFiles.forEach(function(cssFile) {
+    //         if (cssFile.sheet) {
+    //             checkLoaded();
+    //         } else {
+    //             cssFile.addEventListener('load', checkLoaded);
+    //             cssFile.addEventListener('error', checkLoaded);
+    //         }
+    //     });
+    // }
 
-    // Function to hide the loader
-    function hideLoader() {
+    // // Function to hide the loader
+    // function hideLoader() {
+    //     var loader = document.getElementById('loader');
+    //     if (loader) {
+    //         loader.classList.add('hidden');
+    //         // Remove the loader element after the transition
+    //         setTimeout(function() {
+    //             loader.style.display = 'none';
+    //         }, 500);
+    //     }
+    // }
+
+    // // Wait until the CSS is fully loaded before hiding the loader
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     cssLoaded(hideLoader);
+    // });
+
+  // Wait for CSS to load completely
+//   document.addEventListener('DOMContentLoaded', function() {
+//     // Remove loader after 2 seconds (adjust as needed)
+//     setTimeout(removeLoader, 2000); // 2000 milliseconds = 2 seconds
+
+//     function removeLoader() {
+//         var loader = document.getElementById('loader');
+//         if (loader) {
+//             loader.remove();
+//         }
+//     }
+// });
+
+// Function to hide the loader
+function hideLoader() {
         var loader = document.getElementById('loader');
         if (loader) {
-            loader.classList.add('hidden');
-            // Remove the loader element after the transition
-            setTimeout(function() {
-                loader.style.display = 'none';
-            }, 500);
+            loader.remove();
         }
     }
 
-    // Wait until the CSS is fully loaded before hiding the loader
+    // Show loader on page load
     document.addEventListener('DOMContentLoaded', function() {
-        cssLoaded(hideLoader);
+        var loader = document.getElementById('loader');
+        if (loader) {
+            setTimeout(hideLoader, 3000); // Hide loader after 3 seconds
+        }
     });
 
     </script>
